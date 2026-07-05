@@ -9,13 +9,16 @@ import './styles/pages/forms.css';
 import App from './App.jsx';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
+import { NotificationProvider } from './contexts/NotificationContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>
       <AuthProvider>
-        <App />
-      </AuthProvider>
+         <NotificationProvider>
+            <App />
+         </NotificationProvider>
+        </AuthProvider>
     </ThemeProvider>
   </StrictMode>,
 );

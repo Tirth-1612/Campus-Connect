@@ -16,6 +16,7 @@ import eventsRoutes from './routes/eventsRoutes.js';
 import clubsRoutes from './routes/clubsRoutes.js';
 import savedRoutes from './routes/savedRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import notificationsRoutes from './routes/notificationsRoutes.js';
 import './database.js';
 
 const app = express();
@@ -68,6 +69,7 @@ app.use('/api/events', eventsRoutes);
 app.use('/api/clubs', clubsRoutes);
 app.use('/api/saved', savedRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/notifications', notificationsRoutes);
 
 // server
 const PORT = process.env.PORT || 5000;
