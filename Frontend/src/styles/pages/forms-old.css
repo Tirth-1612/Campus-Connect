@@ -1,0 +1,5 @@
+.form{display:grid;gap:.8rem}
+.form-narrow{max-width:560px;margin:0 auto}
+.field{display:grid;gap:.35rem}
+.label-muted{font-size:.9rem;color:var(--muted)}
+.actions{display:flex;justify-content:flex-end;gap:.5rem}

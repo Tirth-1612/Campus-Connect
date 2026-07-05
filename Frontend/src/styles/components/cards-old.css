@@ -1,0 +1,7 @@
+.logo-img{height:60px;width:60px;border-radius:8px}
+.card-title{font-weight:600}
+.card-subtle{color:var(--muted);font-size:.9rem}
+.card-actions{display:flex;justify-content:flex-end}
+.card-row{display:flex;align-items:center;justify-content:space-between}
+.media{width:100%;border-radius:8px}
+.cards-grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
