@@ -2,11 +2,13 @@ import DashboardLayout from '../../layouts/DashboardLayout';
 import { useAuth } from '../../contexts/AuthContext';
 import { listAnnouncements } from '../../api/announcements';
 import { listEvents } from '../../api/events';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import AnnouncementCard from '../../components/cards/AnnouncementCard';
 import EventCard from '../../components/cards/EventCard';
 import { listSaved, saveItem } from '../../api/saved';
-import { FiBell, FiCalendar, FiBookmark, FiTrendingUp, FiUsers, FiBookOpen } from 'react-icons/fi';
+import { getRecommendations } from '../../utils/recommendations';
+import { buildActivityFeed } from '../../utils/activityFeed';
+import { FiBell, FiCalendar, FiBookmark, FiBookOpen, FiClock, FiCpu } from 'react-icons/fi';
 
 export default function StudentDashboard(){
   const { user, token } = useAuth();
@@ -95,13 +97,16 @@ export default function StudentDashboard(){
     },
   ];
 
+  const recommendations = useMemo(() => getRecommendations(user, anns, events, 4), [user, anns, events]);
+  const activityFeed = useMemo(() => buildActivityFeed(anns, events, user), [anns, events, user]);
+
   return (
     <DashboardLayout>
       <div className="page-header">
         <div>
           <h1 className="page-title">Welcome back, {user?.name || 'Student'}!</h1>
           <p className="page-subtitle">
-            Here's what's happening on campus today. Stay updated with the latest announcements and events.
+            Your campus pulse is live. We surface the most relevant announcements, events, and opportunities for you.
           </p>
         </div>
         <div className="page-actions">
@@ -112,7 +117,6 @@ export default function StudentDashboard(){
         </div>
       </div>
 
-      {/* Stats Grid */}
       <div className="stats-grid">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
@@ -124,13 +128,54 @@ export default function StudentDashboard(){
               <div className="stat-content">
                 <div className="stat-value">{stat.value}</div>
                 <div className="stat-label">{stat.title}</div>
-                <div className={`stat-change ${stat.changeType}`}>
-                  {stat.change}
-                </div>
               </div>
             </div>
           );
         })}
+      </div>
+
+      <div className="content-section">
+        <div className="section-header">
+          <div>
+            <h2 className="section-title"><FiCpu /> AI Recommendations</h2>
+            <p className="section-subtitle">Personalized suggestions based on your profile, role, and campus context.</p>
+          </div>
+        </div>
+        <div className="grid grid-auto">
+          {recommendations.length === 0 ? (
+            <div className="empty-state">
+              <p className="empty-state-description">More content will appear here as announcements and events are published.</p>
+            </div>
+          ) : (
+            recommendations.map((item) => (
+              <div key={`${item.kind}-${item.id}`} className="card" style={{ padding: '1rem' }}>
+                <div className="stat-label" style={{ marginBottom: '0.35rem' }}>{item.label}</div>
+                <h3 className="section-title" style={{ fontSize: '1rem', marginBottom: '0.35rem' }}>{item.title}</h3>
+                <p className="section-subtitle" style={{ marginBottom: '0.5rem' }}>{item.reason}</p>
+                <p className="empty-state-description">{item.description || 'Fresh update from CampusConnect.'}</p>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+
+      <div className="content-section">
+        <div className="section-header">
+          <div>
+            <h2 className="section-title"><FiBell /> Live Activity Feed</h2>
+            <p className="section-subtitle">A real-time pulse of what is unfolding across your campus.</p>
+          </div>
+        </div>
+        <div className="grid grid-auto">
+          {activityFeed.map((item) => (
+            <div key={item.id} className="card" style={{ padding: '1rem' }}>
+              <div className="stat-label" style={{ textTransform: 'uppercase', letterSpacing: '0.08em' }}>{item.priority}</div>
+              <h3 className="section-title" style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>{item.title}</h3>
+              <p className="section-subtitle" style={{ marginBottom: '0.35rem' }}>{item.description}</p>
+              <div className="empty-state-description"><FiClock /> {item.meta}</div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {loading && (
