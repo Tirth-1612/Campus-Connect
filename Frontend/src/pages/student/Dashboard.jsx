@@ -8,10 +8,12 @@ import EventCard from '../../components/cards/EventCard';
 import { listSaved, saveItem } from '../../api/saved';
 import { getRecommendations } from '../../utils/recommendations';
 import { buildActivityFeed } from '../../utils/activityFeed';
-import { FiBell, FiCalendar, FiBookmark, FiBookOpen, FiClock, FiCpu } from 'react-icons/fi';
+import { FiBell, FiCalendar, FiBookmark, FiBookOpen, FiClock, FiCpu, FiAlertCircle } from 'react-icons/fi';
+import { useNotifications } from '../../contexts/NotificationContext';
 
 export default function StudentDashboard(){
   const { user, token } = useAuth();
+  const { notify } = useNotifications();
   const [anns, setAnns] = useState([]);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -110,9 +112,20 @@ export default function StudentDashboard(){
           </p>
         </div>
         <div className="page-actions">
-          <button className="btn btn-primary">
+          <button
+            className="btn btn-primary"
+            onClick={() => notify({
+              type: 'success',
+              title: 'Campus update',
+              message: 'A new club meetup is now live. You’ll also receive a WhatsApp-ready notice if a phone number is provided.',
+              whatsappPhone: user?.phone || '9999999999',
+              whatsappMessage: `Hello ${user?.name || 'there'}! CampusConnect has a new update for you.`,
+              actionLabel: 'View',
+              onAction: () => window.location.hash = '#announcements',
+            })}
+          >
             <FiBookOpen />
-            Explore Clubs
+            Test Notification
           </button>
         </div>
       </div>
