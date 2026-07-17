@@ -1,9 +1,12 @@
 import { useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { FiMail, FiLock, FiEye, FiEyeOff, FiAlertCircle, FiCheckCircle, FiArrowRight } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { FiMail, FiLock, FiAlertCircle, FiCheckCircle, FiArrowRight } from 'react-icons/fi';
 import PublicLayout from '../../layouts/PublicLayout';
 import { login as apiLogin } from '../../api/auth';
 import { useAuth } from '../../contexts/AuthContext';
+import TextInput from '../../components/forms/TextInput';
+import PasswordInput from '../../components/forms/PasswordInput';
 import logo from '../../components/common/logo.png';
 
 export default function Login(){
@@ -11,7 +14,6 @@ export default function Login(){
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const nav = useNavigate();
@@ -52,11 +54,16 @@ export default function Login(){
 
   return (
     <PublicLayout>
-      <div className="auth-container">
-        <div className="auth-card">
+      <div className="auth-container" style={{ minHeight: 'calc(100vh - 160px)', alignItems: 'center' }}>
+        <motion.div 
+          className="auth-card"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4 }}
+        >
           <div className="auth-header">
             <div className="auth-logo">
-              <img src={logo} alt="CampusConnect Logo" style={{height:'80px',width:'80px'}} />
+              <img src={logo} alt="CampusConnect Logo" style={{height:'64px',width:'64px',objectFit:'contain'}} />
             </div>
             <h1 className="auth-title">Welcome Back</h1>
             <p className="auth-subtitle">Sign in to your CampusConnect account</p>
@@ -70,53 +77,33 @@ export default function Login(){
               </div>
             )}
 
-            <div className="form-group">
-              <label htmlFor="email" className="form-label">
-                <FiMail /> Email Address
-              </label>
-              <input
-                ref={emailRef}
-                id="email"
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-                className="form-input"
-              />
-            </div>
+            <TextInput
+              ref={emailRef}
+              id="email"
+              type="email"
+              label={<><FiMail /> Email Address</>}
+              placeholder="Enter your email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+            />
 
-            <div className="form-group">
-              <label htmlFor="password" className="form-label">
-                <FiLock /> Password
-              </label>
-              <div className="password-input-wrapper">
-                <input
-                  ref={passwordRef}
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  required
-                  className="form-input"
-                />
-                <button
-                  type="button"
-                  className="password-toggle"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? 'Hide password' : 'Show password'}
-                >
-                  {showPassword ? <FiEyeOff /> : <FiEye />}
-                </button>
-              </div>
-            </div>
+            <PasswordInput
+              ref={passwordRef}
+              id="password"
+              label={<><FiLock /> Password</>}
+              placeholder="Enter your password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+            />
 
-            <div className="form-actions">
+            <div className="form-actions" style={{ marginTop: '2rem' }}>
               <button 
                 type="submit" 
                 className={`btn btn-primary btn-lg btn-full ${isLoading ? 'loading' : ''}`}
                 disabled={isLoading}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
               >
                 {isLoading ? (
                   <>
@@ -133,7 +120,7 @@ export default function Login(){
               </button>
             </div>
 
-            <div className="auth-footer">
+            <div className="auth-footer" style={{ borderTop: '1px solid var(--border)', marginTop: '2rem' }}>
               <p>
                 Don't have an account?{' '}
                 <Link to="/signup" className="auth-link">
@@ -142,12 +129,18 @@ export default function Login(){
               </p>
             </div>
           </form>
-        </div>
+        </motion.div>
 
-        <div className="auth-features">
+        <motion.div 
+          className="auth-features"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4 }}
+          style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRadius: '0 var(--radius-xl) var(--radius-xl) 0' }}
+        >
           <div className="feature-item">
             <div className="feature-icon">
-              <FiCheckCircle />
+              <FiCheckCircle size={20} />
             </div>
             <div className="feature-content">
               <h3>Secure Authentication</h3>
@@ -156,7 +149,7 @@ export default function Login(){
           </div>
           <div className="feature-item">
             <div className="feature-icon">
-              <FiCheckCircle />
+              <FiCheckCircle size={20} />
             </div>
             <div className="feature-content">
               <h3>Role-Based Access</h3>
@@ -165,14 +158,14 @@ export default function Login(){
           </div>
           <div className="feature-item">
             <div className="feature-icon">
-              <FiCheckCircle />
+              <FiCheckCircle size={20} />
             </div>
             <div className="feature-content">
               <h3>Quick Access</h3>
               <p>Instant access to campus resources and announcements</p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </PublicLayout>
   );
