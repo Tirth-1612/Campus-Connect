@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { FiBookmark, FiCalendar, FiMapPin, FiClock } from 'react-icons/fi';
 
 export default function EventCard({ item, onSave, saved, viewMode }){
@@ -21,7 +22,11 @@ export default function EventCard({ item, onSave, saved, viewMode }){
   };
 
   return (
-    <div className="event-card card">
+    <motion.div 
+      className="event-card card"
+      whileHover={{ y: -4, scale: 1.01, boxShadow: 'var(--shadow-lg)' }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+    >
       <div className="card-header">
         <div className="card-meta">
           <span className="card-type">
@@ -61,12 +66,13 @@ export default function EventCard({ item, onSave, saved, viewMode }){
           <button 
             className={`btn ${saved ? 'btn-secondary' : 'btn-primary'} btn-sm`}
             onClick={() => onSave(item)}
+            style={{ width: '100%' }}
           >
             <FiBookmark />
             {saved ? 'Saved' : 'Save'}
           </button>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

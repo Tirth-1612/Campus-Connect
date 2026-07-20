@@ -1,8 +1,8 @@
 export default function TextInput({ label, ...props }){
   return (
-    <label className="field">
-      <span className="label-muted">{label}</span>
-      <input className="input" {...props} />
-    </label>
+    <div className="form-group">
+      {label && <label className="form-label">{label}</label>}
+      <input className="form-input" {...props} />
+    </div>
   );
 }

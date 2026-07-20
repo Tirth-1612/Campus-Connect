@@ -1,4 +1,5 @@
-import { FiBookmark, FiExternalLink, FiCalendar, FiTag } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import { FiBookmark, FiCalendar, FiTag } from 'react-icons/fi';
 
 export default function AnnouncementCard({ item, onSave, saved }){
   const formatDate = (dateString) => {
@@ -12,7 +13,11 @@ export default function AnnouncementCard({ item, onSave, saved }){
   };
 
   return (
-    <div className="announcement-card card">
+    <motion.div 
+      className="announcement-card card"
+      whileHover={{ y: -4, scale: 1.01, boxShadow: 'var(--shadow-lg)' }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+    >
       <div className="card-header">
         <div className="card-meta">
           <span className="card-type">
@@ -43,12 +48,13 @@ export default function AnnouncementCard({ item, onSave, saved }){
           <button 
             className={`btn ${saved ? 'btn-secondary' : 'btn-primary'} btn-sm`}
             onClick={() => onSave(item)}
+            style={{ width: '100%' }}
           >
             <FiBookmark />
             {saved ? 'Saved' : 'Save'}
           </button>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

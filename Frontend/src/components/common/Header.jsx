@@ -1,11 +1,25 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 import { useState } from 'react';
-import { FiMenu, FiX, FiUser, FiLogOut, FiChevronDown, FiHome, FiBook, FiUsers, FiCalendar } from 'react-icons/fi';
+import { 
+  FiMenu, 
+  FiX, 
+  FiUser, 
+  FiLogOut, 
+  FiChevronDown, 
+  FiHome, 
+  FiBook, 
+  FiUsers, 
+  FiCalendar,
+  FiSun,
+  FiMoon
+} from 'react-icons/fi';
 import logo from './logo.png'
 
-export default function Header() {
+export default function Header({ onMenuToggle }) {
   const { isAuthenticated, user, logout } = useAuth();
+  const { theme, toggle } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
@@ -14,21 +28,49 @@ export default function Header() {
     setIsProfileOpen(false);
   };
 
+  const getDashboardLink = () => {
+    if (!user) return '/';
+    return `/dashboard/${user.role}`;
+  };
+
   return (
-    <header className="header">
+    <header className="header" style={{ backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
       <div className="container">
         <div className="header-inner">
           <Link to="/" className="brand">
             <div className="brand-logo">
               <div className="logo-icon">
-                <img src={logo} alt='logo' style={{height:'70px',width:'70px'}}></img>
+                <img src={logo} alt='logo' style={{height:'40px',width:'40px',objectFit:'contain'}}></img>
               </div>
-              <span className="brand-text"><h2>CampusConnect</h2></span>
+              <span className="brand-text" style={{ fontStyle: 'normal', letterSpacing: '-0.02em', fontWeight: 800 }}>
+                CampusConnect
+              </span>
             </div>
           </Link>
 
           {/* User Actions */}
           <div className="header-actions">
+            {/* Theme Toggle Button */}
+            <button 
+              onClick={toggle}
+              className="btn btn-ghost"
+              style={{
+                width: '38px',
+                height: '38px',
+                padding: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: '50%',
+                border: '1px solid var(--border)',
+                background: 'var(--bg-secondary)',
+                color: 'var(--text-secondary)'
+              }}
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <FiSun size={18} /> : <FiMoon size={18} />}
+            </button>
+
             {!isAuthenticated ? (
               <div className="auth-buttons">
                 <Link to="/login" className="btn btn-ghost">Sign In</Link>
@@ -40,8 +82,9 @@ export default function Header() {
                   className="user-button"
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   onBlur={() => setTimeout(() => setIsProfileOpen(false), 200)}
+                  style={{ borderRadius: 'var(--radius-lg)' }}
                 >
-                  <div className="user-avatar">
+                  <div className="user-avatar" style={{ flexShrink: 0 }}>
                     <FiUser />
                   </div>
                   <span className="user-name">{user?.name || user?.email}</span>
@@ -77,10 +120,15 @@ export default function Header() {
               </div>
             )}
 
-            {/* Mobile Menu Toggle */}
             <button 
               className="mobile-menu-toggle"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() => {
+                if (onMenuToggle) {
+                  onMenuToggle();
+                } else {
+                  setIsMenuOpen(!isMenuOpen);
+                }
+              }}
               aria-label="Toggle menu"
             >
               {isMenuOpen ? <FiX /> : <FiMenu />}
@@ -98,26 +146,23 @@ export default function Header() {
               {isAuthenticated && (
                 <>
                   <Link 
-                    to="/dashboard/student" 
+                    to={getDashboardLink()} 
                     className="mobile-nav-link"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     <FiBook /> Dashboard
                   </Link>
-                  <Link 
-                    to="/dashboard/student/clubs" 
-                    className="mobile-nav-link"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <FiUsers /> Clubs
-                  </Link>
-                  <Link 
-                    to="/dashboard/student/events" 
-                    className="mobile-nav-link"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <FiCalendar /> Events
-                  </Link>
+                  {user?.role === 'student' && (
+                    <>
+                      <Link 
+                        to="/dashboard/student/clubs" 
+                        className="mobile-nav-link"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <FiUsers /> Clubs
+                      </Link>
+                    </>
+                  )}
                   <Link 
                     to={`/dashboard/${user?.role}/profile`} 
                     className="mobile-nav-link"

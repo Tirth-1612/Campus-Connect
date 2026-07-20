@@ -12,7 +12,7 @@ import {
   FiTrendingUp
 } from 'react-icons/fi';
 
-export default function Sidebar(){
+export default function Sidebar({ open }){
   const { user } = useAuth();
   const { pathname } = useLocation();
 
@@ -53,7 +53,7 @@ export default function Sidebar(){
   };
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${open ? 'open' : ''}`}>
       <div className="sidebar-header">
         <div className="user-info">
           <div className="user-avatar">
