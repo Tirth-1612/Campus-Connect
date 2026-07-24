@@ -33,8 +33,8 @@ async function signup(req, res) {
     console.log('signup after hash');
     const { data: inserted, error: insErr } = await supabase
       .from('users')
-      .insert([{ name, email, password_hash, role, department, year }])
-      .select('id, email, role')
+      .insert([{ name, email, password_hash, role, department, year, interests: [] }])
+      .select('id, name, email, role, department, year, interests')
       .single();
     console.log('signup after insert', { inserted, insErr });
     if (insErr) {
@@ -61,7 +61,7 @@ async function login(req, res) {
     }
     const { data: users, error } = await supabase
       .from('users')
-      .select('id, email, role, password_hash')
+      .select('id, name, email, role, department, year, interests, password_hash')
       .eq('email', email)
       .limit(1);
     if (error) {
@@ -78,7 +78,18 @@ async function login(req, res) {
     }
 
     const token = signToken({ userId: user.id, role: user.role });
-    return res.json({ token, user: { id: user.id, email: user.email, role: user.role } });
+    return res.json({ 
+      token, 
+      user: { 
+        id: user.id, 
+        name: user.name,
+        email: user.email, 
+        role: user.role,
+        department: user.department,
+        year: user.year,
+        interests: user.interests || []
+      } 
+    });
   } 
   
   catch (err) {
@@ -87,7 +98,7 @@ async function login(req, res) {
   }
 }
 
-//can update dept,name and year only
+//can update dept,name, year, and interests
 async function update(req,res){
   try{
     if(!req.user || !req.user.userId){
@@ -95,12 +106,13 @@ async function update(req,res){
     }
 
     const userId = req.user.userId;
-    const { name, department, year, password } = req.body || {};
+    const { name, department, year, password, interests } = req.body || {};
 
     const patch = {};
     if (typeof name === 'string' && name.trim().length) patch.name = name;
     if (typeof department === 'string' && department.trim().length) patch.department = department;
     if (year !== undefined && year !== null) patch.year = year;
+    if (interests !== undefined && Array.isArray(interests)) patch.interests = interests;
 
     if (password !== undefined) {
       if (typeof password !== 'string' || password.length < 6) {
@@ -117,7 +129,7 @@ async function update(req,res){
       .from('users')
       .update(patch)
       .eq('id', userId)
-      .select('id, name, email, role, department, year')
+      .select('id, name, email, role, department, year, interests')
       .single();
     if (error) return res.status(500).json({ error: 'Internal Server Error' });
     if (!data) return res.status(404).json({ error: 'User not found' });
