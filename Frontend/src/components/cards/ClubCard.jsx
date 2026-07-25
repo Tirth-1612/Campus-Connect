@@ -1,7 +1,11 @@
 import { motion } from 'framer-motion';
 import { FiUsers, FiCheck, FiClock, FiXCircle } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function ClubCard({ club, onJoin, viewMode }){
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const status = club.membership_status || club.status || club.joinState || null;
 
   let btnLabel = 'Join Club';
@@ -15,9 +19,9 @@ export default function ClubCard({ club, onJoin, viewMode }){
     disabled = true;
     btnIcon = <FiClock className="animate-pulse" />;
   } else if (status === 'approved' || status === 'joined') {
-    btnLabel = 'Joined';
+    btnLabel = 'View Club Hub';
     btnVariant = 'btn-success';
-    disabled = true;
+    disabled = false;
     btnIcon = <FiCheck />;
   } else if (status === 'rejected') {
     btnLabel = 'Rejected';
@@ -26,8 +30,12 @@ export default function ClubCard({ club, onJoin, viewMode }){
     btnIcon = <FiXCircle />;
   }
 
-  function handleJoin(e){
+  function handleAction(e){
     e.preventDefault();
+    if (status === 'approved' || status === 'joined') {
+      navigate(`/dashboard/${user?.role || 'student'}/clubs/${club.id}`);
+      return;
+    }
     if (disabled) return;
     onJoin && onJoin(club);
   }
@@ -104,7 +112,7 @@ export default function ClubCard({ club, onJoin, viewMode }){
           <button 
             className={`btn ${btnVariant} btn-sm`} 
             disabled={disabled} 
-            onClick={handleJoin}
+            onClick={handleAction}
             style={{ 
               width: isList ? 'auto' : '100%', 
               alignSelf: isList ? 'flex-start' : 'stretch',
