@@ -72,3 +72,27 @@ create index if not exists idx_events_created_at on public.events (created_at de
 create index if not exists idx_user_clubs_status on public.user_clubs (status);
 create index if not exists idx_saved_announcements_user on public.saved_announcements (user_id);
 create index if not exists idx_saved_events_user on public.saved_events (user_id);
+
+-- New schema additions for standout features
+ALTER TABLE public.users ADD COLUMN IF NOT EXISTS interests text[];
+
+CREATE TABLE IF NOT EXISTS public.club_posts (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  club_id uuid NOT NULL REFERENCES public.clubs(id) ON DELETE CASCADE,
+  user_id uuid NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  title text NOT NULL,
+  content text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS public.club_comments (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  post_id uuid NOT NULL REFERENCES public.club_posts(id) ON DELETE CASCADE,
+  user_id uuid NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  content text NOT NULL,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS idx_club_posts_club_id ON public.club_posts(club_id);
+CREATE INDEX IF NOT EXISTS idx_club_comments_post_id ON public.club_comments(post_id);
+
