@@ -32,3 +32,8 @@ export async function apiPatch(path, body, token) {
   const res = await fetch(`${BASE_URL}${path}`, { method: 'PATCH', headers: authHeaders(token), body: JSON.stringify(body) });
   return handleResponse(res);
 }
+
+export async function apiDelete(path, token) {
+  const res = await fetch(`${BASE_URL}${path}`, { method: 'DELETE', headers: authHeaders(token) });
+  return handleResponse(res);
+}
