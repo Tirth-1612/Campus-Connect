@@ -23,7 +23,7 @@
 
 <br/>
 
-**[🚀 Live Demo](#)** · **[📖 Documentation](#-table-of-contents)** · **[🐛 Report Bug](../../issues)** · **[✨ Request Feature](../../issues)**
+
 
 </div>
 
@@ -380,10 +380,13 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for details.
 
 <div align="center">
 
-### 💜 Built with focus on clarity, scalability, and the modern experience students and faculty deserve.
+
 
 <img src="https://user-images.githubusercontent.com/74038190/212284158-e840e285-664b-44d7-b79b-e264b5e54825.gif" width="100%">
 
-**⭐ If CampusConnect helped you, consider giving it a star!**
+**Crafted with passion❤️ and a lot of coffee ☕️**
+</div>
+<div align="center">
+- Tirth Gujarati
 
 </div>
