@@ -20,6 +20,7 @@ export default function Sidebar({ open }){
     student: [
       { to:'/dashboard/student', label:'Overview', icon: FiHome },
       { to:'/dashboard/student/profile', label:'Profile', icon: FiUser },
+      { to:'/dashboard/student/calendar', label:'Event Calendar', icon: FiCalendar },
       { to:'/dashboard/student/clubs', label:'Clubs', icon: FiUsers },
       { to:'/dashboard/student/saved/announcements', label:'Saved Announcements', icon: FiBookmark },
       { to:'/dashboard/student/saved/events', label:'Saved Events', icon: FiCalendar },
@@ -27,6 +28,7 @@ export default function Sidebar({ open }){
     faculty: [
       { to:'/dashboard/faculty', label:'Overview', icon: FiHome },
       { to:'/dashboard/faculty/profile', label:'Profile', icon: FiUser },
+      { to:'/dashboard/faculty/calendar', label:'Event Calendar', icon: FiCalendar },
       { to:'/dashboard/faculty/announcements/create', label:'Create Announcement', icon: FiMessageSquare },
       { to:'/dashboard/faculty/events/create', label:'Create Event', icon: FiCalendar },
       { to:'/dashboard/faculty/saved/announcements', label:'Saved Announcements', icon: FiBookmark },
@@ -35,6 +37,7 @@ export default function Sidebar({ open }){
     admin: [
       { to:'/dashboard/admin', label:'Overview', icon: FiHome },
       { to:'/dashboard/admin/profile', label:'Profile', icon: FiUser },
+      { to:'/dashboard/admin/calendar', label:'Event Calendar', icon: FiCalendar },
       { to:'/dashboard/admin/announcements/create', label:'Create Announcement', icon: FiMessageSquare },
       { to:'/dashboard/admin/events/create', label:'Create Event', icon: FiCalendar },
       { to:'/dashboard/admin/clubs/create', label:'Create Club', icon: FiPlusCircle },
