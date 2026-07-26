@@ -42,6 +42,16 @@ const scoreItem = (item, user = {}) => {
   if (text.includes('cultural')) score += 6;
   if (text.includes('sports')) score += 6;
 
+  // Interest match boost (Dynamic personalization)
+  if (user?.interests && Array.isArray(user.interests)) {
+    user.interests.forEach((interest) => {
+      const normInterest = normalizeText(interest);
+      if (normInterest && text.includes(normInterest)) {
+        score += 25;
+      }
+    });
+  }
+
   return score;
 };
 
