@@ -1,0 +1,56 @@
+/* =========================================================
+   TAILWIND ENTRY FILE
+   PATH: Frontend/src/styles/tailwind.css   (create new file)
+   This must be imported BEFORE theme.css in index.css
+   ========================================================= */
+
+@import "tailwindcss";
+
+/* Map your existing CSS variables (from theme.css) into Tailwind
+   so you can use classes like bg-primary, text-muted, shadow-card,
+   rounded-lg, etc. and still respect light/dark mode automatically. */
+@theme {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-bg-card: var(--bg-card);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-inverse: var(--text-inverse);
+
+  --color-primary-50: var(--primary-50);
+  --color-primary-100: var(--primary-100);
+  --color-primary-200: var(--primary-200);
+  --color-primary-300: var(--primary-300);
+  --color-primary-400: var(--primary-400);
+  --color-primary-500: var(--primary-500);
+  --color-primary-600: var(--primary-600);
+  --color-primary-700: var(--primary-700);
+  --color-primary-800: var(--primary-800);
+  --color-primary-900: var(--primary-900);
+
+  --color-accent-50: var(--accent-50);
+  --color-accent-100: var(--accent-100);
+  --color-accent-200: var(--accent-200);
+  --color-accent-300: var(--accent-300);
+  --color-accent-400: var(--accent-400);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+  --color-accent-700: var(--accent-700);
+  --color-accent-800: var(--accent-800);
+  --color-accent-900: var(--accent-900);
+
+  --color-success-500: var(--success-500);
+  --color-warning-500: var(--warning-500);
+  --color-error-500: var(--error-500);
+
+  --radius-card: var(--radius-lg);
+  --radius-pill: 999px;
+
+  --shadow-card: var(--shadow-md);
+  --shadow-card-hover: var(--shadow-xl);
+
+  --font-sans: var(--font-sans);
+}

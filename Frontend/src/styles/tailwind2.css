@@ -1,0 +1,123 @@
+/* =========================================================
+   GOD-LEVEL UI UPGRADE LAYER
+   PATH: Frontend/src/styles/god-level.css   (create new file)
+   Import this file LAST in index.css (after theme.css)
+   so these Tailwind @apply rules win over the plain CSS.
+   ========================================================= */
+
+@layer components {
+
+  /* ---------- HEADER: glass + gradient underline ---------- */
+  .header {
+    @apply !bg-white/70 dark:!bg-slate-900/70 backdrop-blur-xl
+           !shadow-none border-b border-white/40 dark:border-white/10
+           relative;
+  }
+  .header::after {
+    content: "";
+    @apply absolute bottom-0 left-0 h-[2px] w-full
+           bg-gradient-to-r from-primary-500 via-accent-500 to-primary-500
+           opacity-70;
+  }
+  .brand {
+    @apply transition-transform duration-300 hover:scale-[1.03];
+  }
+
+  /* ---------- SIDEBAR: floating glass panel ---------- */
+  .sidebar {
+    @apply !bg-white/80 dark:!bg-slate-900/80 backdrop-blur-xl
+           !border-r-0 shadow-[8px_0_30px_-15px_rgba(0,0,0,0.15)];
+  }
+  .sidebar-header {
+    @apply !bg-transparent border-b border-slate-200/60 dark:border-white/10;
+  }
+  .user-avatar {
+    @apply shadow-lg shadow-primary-500/30 ring-2 ring-white dark:ring-slate-800
+           transition-transform duration-300 hover:scale-105 hover:rotate-3;
+  }
+
+  /* ---------- CARDS: elevated glass + gradient glow on hover ---------- */
+  .card {
+    @apply !rounded-2xl !border-slate-200/70 dark:!border-white/10
+           !bg-white/90 dark:!bg-slate-800/80 backdrop-blur-sm
+           transition-all duration-300 ease-out
+           hover:!-translate-y-2 hover:!shadow-2xl
+           hover:!border-primary-300/60 relative overflow-hidden;
+  }
+  .card::before {
+    content: "";
+    @apply absolute inset-0 opacity-0 transition-opacity duration-500
+           bg-gradient-to-br from-primary-500/10 via-transparent to-accent-500/10
+           pointer-events-none;
+  }
+  .card:hover::before {
+    @apply opacity-100;
+  }
+
+  /* ---------- BUTTONS (add class="btn-glow" to your primary buttons) --- */
+  .btn-glow {
+    @apply relative inline-flex items-center justify-center gap-2
+           rounded-xl px-5 py-2.5 font-semibold text-white
+           bg-gradient-to-r from-primary-500 to-accent-500
+           shadow-lg shadow-primary-500/30
+           transition-all duration-300
+           hover:shadow-xl hover:shadow-accent-500/40 hover:-translate-y-0.5
+           active:translate-y-0 active:shadow-md;
+  }
+
+  /* ---------- BADGE / PILL for tags & categories ---------- */
+  .badge-glow {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1
+           text-xs font-semibold tracking-wide
+           bg-gradient-to-r from-primary-100 to-accent-100
+           dark:from-primary-900/40 dark:to-accent-900/40
+           text-primary-700 dark:text-primary-300;
+  }
+
+  /* ---------- GRADIENT HEADLINE TEXT ---------- */
+  .heading-gradient {
+    @apply bg-clip-text text-transparent
+           bg-gradient-to-r from-primary-600 via-accent-500 to-primary-600
+           bg-[length:200%_auto] animate-[shine_4s_linear_infinite];
+  }
+
+  /* ---------- HERO / PAGE BACKGROUND with animated blobs ---------- */
+  .bg-god {
+    @apply relative isolate overflow-hidden;
+  }
+  .bg-god::before,
+  .bg-god::after {
+    content: "";
+    @apply absolute w-[420px] h-[420px] rounded-full blur-3xl opacity-30 -z-10;
+  }
+  .bg-god::before {
+    @apply bg-primary-400 top-[-120px] left-[-100px] animate-[float_9s_ease-in-out_infinite];
+  }
+  .bg-god::after {
+    @apply bg-accent-400 bottom-[-140px] right-[-100px] animate-[float_11s_ease-in-out_infinite_reverse];
+  }
+
+  /* ---------- SKELETON / LOADING SHIMMER ---------- */
+  .skeleton {
+    @apply relative overflow-hidden bg-slate-200/70 dark:bg-slate-700/50 rounded-xl;
+  }
+  .skeleton::after {
+    content: "";
+    @apply absolute inset-0 -translate-x-full
+           bg-gradient-to-r from-transparent via-white/60 to-transparent
+           animate-[shimmer_1.6s_infinite];
+  }
+}
+
+@layer utilities {
+  @keyframes shine {
+    to { background-position: 200% center; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50%      { transform: translateY(30px) translateX(20px); }
+  }
+  @keyframes shimmer {
+    100% { transform: translateX(100%); }
+  }
+}

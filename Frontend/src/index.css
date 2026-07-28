@@ -1,8 +1,14 @@
-/* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import './styles/tailwind1.css';   /* add at the very top */
+@import './styles/theme.css';      /* existing */
+
+@import './styles/tailwind2.css';  /* add at the very bottom */
+
+/* Import Google Fonts */
+
 
 /* Import theme system */
-@import './styles/theme.css';
+
 
 /* Global reset and layout guards */
 html, body, #root {
