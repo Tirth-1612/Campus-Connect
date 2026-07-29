@@ -16,10 +16,7 @@
 [![JWT](https://img.shields.io/badge/Auth-JWT-black?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
-[![Stars](https://img.shields.io/github/stars/your-username/CampusConnect?style=for-the-badge&color=gold)](https://github.com/your-username/CampusConnect/stargazers)
-[![Forks](https://img.shields.io/github/forks/your-username/CampusConnect?style=for-the-badge&color=blue)](https://github.com/your-username/CampusConnect/network/members)
-[![Issues](https://img.shields.io/github/issues/your-username/CampusConnect?style=for-the-badge&color=red)](https://github.com/your-username/CampusConnect/issues)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
+
 
 <br/>
 
